@@ -1,0 +1,49 @@
+name: JP JS test (gitops) 2
+tag: new-workflow-2
+description: null
+isDraft: true
+filter:
+  type: GLOBAL
+runResponseTemplate: null
+actions:
+- name: List branches
+  slug: list-branches
+  schema:
+    inputs:
+      repo: cortexapps/brain-backend
+      per_page: 30
+      protected: false
+    integrationAlias: cortex
+    actionIdentifier: github.listBranches
+    type: ADVANCED_HTTP_REQUEST
+  outgoingActions:
+  - javascript
+  isRootAction: true
+- name: JavaScript
+  slug: javascript
+  schema:
+    script: |-
+      return fetch('https://api.ipify.org?format=json')
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          return(data);
+        });
+    type: JAVASCRIPT
+  outgoingActions:
+  - http-request
+  isRootAction: false
+- name: HTTP request
+  slug: http-request
+  schema:
+    headers:
+      Content-Type: application/json
+    httpMethod: POST
+    payload: "{\"content\": {{{actions.javascript.outputs.return}}}}"
+    url: https://echo.free.beeceptor.com
+    type: HTTP_REQUEST
+  outgoingActions: []
+  isRootAction: false
+runRestrictionPolicies: []
+iconTag: null

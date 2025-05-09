@@ -29,6 +29,7 @@ actions:
         })
         .then(data => {
           return(data);
+          
         });
     type: JAVASCRIPT
   outgoingActions:
@@ -47,3 +48,4 @@ actions:
   isRootAction: false
 runRestrictionPolicies: []
 iconTag: null
+

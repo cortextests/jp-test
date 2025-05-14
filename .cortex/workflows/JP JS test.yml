@@ -26,7 +26,6 @@ actions:
       return fetch('https://api.ipify.org?format=json')
         .then(response => {
           return response.json();
-          
         });
     type: JAVASCRIPT
   outgoingActions:
